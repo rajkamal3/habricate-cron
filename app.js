@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Habit = require('./models/habitModel');
+const cron = require('node-cron');
 
 dotenv.config({
     path: `${__dirname}/config.env`
@@ -22,14 +23,25 @@ mongoose
     })
     .then(() => {
         console.log('Database connection successful!');
-        getAllHabits();
+        // getAllHabits();
     });
 
-const getAllHabits = async () => {
-    const habits = await Habit.find({});
-    console.log(habits);
-};
+// const getAllHabits = async () => {
+//     const habits = await Habit.find({});
+//     console.log(habits);
+// };
 
-// app.get('/', (req, res, next) => {
-//     res.send(`I'm da beef`);
-// });
+cron.schedule(
+    // '0 0 * * *',
+    // '*/3 * * * * *',
+    '15 8 * * *',
+    async () => {
+        console.log('Runs everyday at 12:00 AM at Asia/Kolkata timezone ' + Math.floor(Math.random() * 10));
+        // const habits = await Habit.find({ user: store.user._id });
+        // console.log(habits);
+    },
+    {
+        scheduled: true,
+        timezone: 'America/Barbados'
+    }
+);
