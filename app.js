@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const Habit = require('./models/habitModel');
 
 dotenv.config({
     path: `${__dirname}/config.env`
@@ -21,8 +22,14 @@ mongoose
     })
     .then(() => {
         console.log('Database connection successful!');
+        getAllHabits();
     });
 
-app.get('/', (req, res, next) => {
-    res.send(`I'm da beef`);
-});
+const getAllHabits = async () => {
+    const habits = await Habit.find({});
+    console.log(habits);
+};
+
+// app.get('/', (req, res, next) => {
+//     res.send(`I'm da beef`);
+// });
