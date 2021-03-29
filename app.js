@@ -33,7 +33,7 @@ mongoose
 
 cron.schedule(
     // '0 0 * * *',
-    // '*/3 * * * * *',
+    '*/3 * * * * *',
     '15 8 * * *',
     async () => {
         console.log('Runs everyday at 12:00 AM at Asia/Kolkata timezone ' + Math.floor(Math.random() * 10));
@@ -42,6 +42,6 @@ cron.schedule(
     },
     {
         scheduled: true,
-        timezone: 'America/Barbados'
+        timezone: 'Asia/Kolkata'
     }
 );
