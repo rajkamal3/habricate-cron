@@ -15,8 +15,10 @@ MongoClient.connect('mongodb+srv://habricateAdmin:tjV8xY3jthAmgJMQ@cluster0.p6xb
     .then(client => {
         return client.db().collection('habits').find();
     })
-    .then(result => {
-        console.log(result);
+    .then(habits => {
+        habits.forEach(habit => {
+            console.log(habit);
+        });
     })
     .catch(err => {
         console.log(err);
