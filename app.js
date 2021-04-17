@@ -4,44 +4,121 @@ const dotenv = require('dotenv');
 const Habit = require('./models/habitModel');
 const cron = require('node-cron');
 
-dotenv.config({
-    path: `${__dirname}/config.env`
-});
+const Router = require('express').Router;
+const mongodb = require('mongodb');
 
-const app = express();
+const MongoClient = mongodb.MongoClient;
 
-app.use(express.json());
-
-const DB = process.env.DB.replace('<password>', process.env.DB_PASSWORD);
-
-mongoose
-    .connect(DB, {
-        useCreateIndex: true,
-        useFindAndModify: true,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
+MongoClient.connect('mongodb+srv://habricateAdmin:tjV8xY3jthAmgJMQ@cluster0.p6xbb.mongodb.net/habricate?retryWrites=true&w=majority', {
+    useUnifiedTopology: true
+})
+    .then(client => {
+        client.db().collection('habits').findOne();
     })
-    .then(() => {
-        console.log('Database connection successful!');
-        // getAllHabits();
+    .then(result => {
+        console.log(result);
+    })
+    .catch(err => {
+        console.log(err);
     });
+
+// dotenv.config({
+//     path: `${__dirname}/config.env`
+// });
+
+// const app = express();
+
+// app.use(express.json());
+
+// const DB = process.env.DB.replace('<password>', process.env.DB_PASSWORD);
+
+// mongoose
+//     .connect(DB, {
+//         useCreateIndex: true,
+//         useFindAndModify: true,
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true
+//     })
+//     .then(() => {
+//         console.log('Database connection successful!');
+//         // getAllHabits();
+//     });
 
 // const getAllHabits = async () => {
 //     const habits = await Habit.find({});
 //     console.log(habits);
 // };
 
-cron.schedule(
-    // '0 0 * * *',
-    '*/3 * * * * *',
-    '15 8 * * *',
-    async () => {
-        console.log('Runs everyday at 12:00 AM at Asia/Kolkata timezone ' + Math.floor(Math.random() * 10));
-        // const habits = await Habit.find({ user: store.user._id });
-        // console.log(habits);
-    },
-    {
-        scheduled: true,
-        timezone: 'Asia/Kolkata'
-    }
-);
+// cron.schedule(
+//     // '0 0 * * *',
+//     // '*/3 * * * * *',
+//     '33 23 * * *',
+//     async () => {
+//         console.log('Runs everyday at 20:43 AM at Asia/Kolkata timezone ' + Math.floor(Math.random() * 10));
+//         const habit = await Habit.find({ _id: '606209b203ca2a3fd488bbc5' });
+//         // console.log(habit);
+
+//         // let whole = {
+//         //     _id: '606027af35261d48f8b2fe62',
+//         //     name: '1',
+//         //     doAtTime: [
+//         //         {
+//         //             date: '2021-03-27T06:51:24.878Z',
+//         //             data: [
+//         //                 {
+//         //                     checked: true,
+//         //                     _id: '606027af35261d48f8b2fe63',
+//         //                     time: '13:23'
+//         //                 },
+//         //                 {
+//         //                     checked: true,
+//         //                     _id: '606027af35261d48f8b2fe64',
+//         //                     time: '02:41'
+//         //                 }
+//         //             ]
+//         //         },
+//         //         {
+//         //             date: '2021-03-28T06:51:24.878Z',
+//         //             data: [
+//         //                 {
+//         //                     checked: true,
+//         //                     _id: '606027af35261d48f8b2fe63',
+//         //                     time: '13:23'
+//         //                 },
+//         //                 {
+//         //                     checked: false,
+//         //                     _id: '606027af35261d48f8b2fe64',
+//         //                     time: '02:41'
+//         //                 }
+//         //             ]
+//         //         }
+//         //     ],
+//         //     doAtPlace: 'A',
+//         //     dailyTarget: 1,
+//         //     dailyTargetUnit: 'As',
+//         //     reminder: true
+//         // };
+
+//         let nextData = { ...habit.doAtTime[habit.doAtTime.length - 1] };
+
+//         let tomorrow = new Date(nextData.date);
+
+//         tomorrow.setDate(tomorrow.getDate() + 1);
+//         nextData.date = tomorrow.toISOString();
+
+//         for (let i = 0; i < nextData.data.length; i++) {
+//             nextData.data[i].checked = false;
+//         }
+
+//         console.log(nextData);
+
+//         habit.doAtTime.push(nextData);
+
+//         console.log(habit.doAtTime);
+//         console.log('Huell failed');
+//     },
+//     {
+//         scheduled: true,
+//         timezone: 'Asia/Kolkata'
+//     }
+// );
