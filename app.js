@@ -13,7 +13,7 @@ MongoClient.connect('mongodb+srv://habricateAdmin:tjV8xY3jthAmgJMQ@cluster0.p6xb
     useUnifiedTopology: true
 })
     .then(client => {
-        client.db().collection('habits').findOne();
+        client.db().collection('habits').find();
     })
     .then(result => {
         console.log(result);
