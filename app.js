@@ -9,7 +9,11 @@ const mongodb = require('mongodb');
 
 const MongoClient = mongodb.MongoClient;
 
-MongoClient.connect('mongodb+srv://habricateAdmin:tjV8xY3jthAmgJMQ@cluster0.p6xbb.mongodb.net/habricate?retryWrites=true&w=majority', {
+dotenv.config({
+    path: `${__dirname}/config.env`
+});
+
+MongoClient.connect(process.env.DB_WITH_PASSWORD, {
     useUnifiedTopology: true
 })
     .then(client => {
